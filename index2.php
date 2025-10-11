@@ -1,0 +1,58 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["califs"])) {
+    $califs = $_POST["califs"];
+
+    // Inicializar contadores
+    $total = 0;
+    $aprobados = 0;
+    $reprobados = 0;
+    $np = 0;
+    $mejor = -1;
+    $peor = 11;
+
+    foreach ($califs as $alumnos => $nota) {
+        if ($nota == "NP") {
+            $np++;
+            continue;
+        }
+
+        $notaNum = floatval($nota);
+        $total++;
+
+        if ($notaNum >= 6) $aprobados++;
+        else $reprobados++;
+
+        if ($notaNum > $mejor) $mejor = $notaNum;
+        if ($notaNum < $peor) $peor = $notaNum;
+    }
+
+    // Calcular porcentajes
+    $porcAprob = $total > 0 ? ($aprobados / $total) * 100 : 0;
+    $porcReprob = $total > 0 ? ($reprobados / $total) * 100 : 0;
+
+    echo "<h2> Resultados de las calificaciones</h2>";
+    echo "<table border='1' cellpadding='5'>
+            <tr><th>Alumno</th><th>Calificación</th></tr>";
+
+    foreach ($califs as $alumnos => $nota) {
+        echo "<tr><td>$alumnos</td><td>$nota</td></tr>";
+    }
+
+    echo "</table><br>";
+
+    echo "<h3>Estadísticas</h3>";
+    echo "Total de alumnos: " . count($califs) . "<br>";
+    echo "Aprobados: $aprobados ($porcAprob%)<br>";
+    echo "Reprobados: $reprobados ($porcReprob%)<br>";
+    echo "No presentaron (NP): $np<br>";
+
+    if ($total > 0) {
+        echo "Mejor nota: $mejor<br>";
+        echo "Peor nota: $peor<br>";
+    } else {
+        echo "No hay calificaciones válidas.<br>";
+    }
+} else {
+    echo "Acceso no válido";
+}
+?>
