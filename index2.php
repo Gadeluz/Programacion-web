@@ -2,7 +2,7 @@
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["califs"])) {
     $califs = $_POST["califs"];
 
-    // Inicializar contadores
+
     $total = 0;
     $aprobados = 0;
     $reprobados = 0;
@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["califs"])) {
         if ($notaNum < $peor) $peor = $notaNum;
     }
 
-    // Calcular porcentajes
+
     $porcAprob = $total > 0 ? ($aprobados / $total) * 100 : 0;
     $porcReprob = $total > 0 ? ($reprobados / $total) * 100 : 0;
 
@@ -56,3 +56,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["califs"])) {
     echo "Acceso no válido";
 }
 ?>
+
