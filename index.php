@@ -1,53 +1,52 @@
 <?php
-$alumnos = ["julian", "petunia", "pedro", "mandril", "pacoweb", "starlord", "bruja", "perras", "dogs", "nintendo"];
-$califs = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "NP"];
-?>
+session_start();
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $usuario = $_POST['usuario'];
+    $password = $_POST['password'];
+    $recordar = isset($_POST['recordar']);
+
+    $usuario_valido = "admin";
+    $password_valido = "12345";
+
+    if ($usuario === $usuario_valido && $password === $password_valido) {
+        $_SESSION['usuario'] = $usuario;
+
+        if ($recordar) {
+           
+            setcookie("usuario", $usuario, time() + (24 * 60), "/");
+        } else {
+           
+            setcookie("usuario", "", time() - 3600, "/");
+        }
+
+        
+        echo '<script>window.location.href = "inicio.php";</script>';
+        exit;
+    } else {
+        echo "Usuario o contraseña incorrectos.";
+    }
+} else {
+?>
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Lista de calificaciones</title>
+    <title>Login</title>
 </head>
 <body>
-    <h1>Lista de calificaciones</h1>
+    <h3>Inicio de Sesión</h3>
 
-    <form method="POST" action="index2.php">
-        <table>
-            <tr>
-                <th>Nombre</th>
-                <th>Calificación</th>
-            </tr>
-
-            <?php foreach ($alumnos as $alumnos): ?>
-                <tr>
-                    <td><?php echo $alumnos; ?></td>
-                    <td>
-                        <select name="califs[<?php echo $alumnos; ?>]">
-                            <?php foreach ($califs as $c): ?>
-                                <option value="<?php echo $c; ?>"><?php echo $c; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </table>
-
-        <input target="_blank" type="submit">
+    <form method="POST">
+        <label>Usuario:</label><br>
+        <input type="text" name="usuario" required><br>
+        <label>Contraseña:</label><br>
+        <input type="password" name="password" required><br>
+        <label><input type="checkbox" name="recordar"> Recordar usuario</label><br>
+        <input type="submit" value="Ingresar">
     </form>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
+<?php
+}
+?>
