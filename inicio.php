@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 
@@ -22,7 +23,7 @@ if (isset($_SESSION['usuario'])) {
     <title>Inicio</title>
 </head>
 <body>
-    <h3>Bienvenido, <?php echo htmlspecialchars($usuario); ?>.</h3>
+   <h3>Bienvenido, <?php echo $usuario; ?>.</h3>
 
     <?php if (isset($_COOKIE['usuario'])): ?>
         <p> Sesión Iniciada.</p>
